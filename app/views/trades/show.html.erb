@@ -1,0 +1,59 @@
+  <div class="container">
+    <div class="rows">
+      <div class="col-md-8 mt-5">
+    <h1 class="title is-1"><%= @trade.title %></h1>
+    <div>
+      <strong><p class="pb3 border-bottom col-md-3 text-primary">Post <%= time_ago_in_words(@trade.created_at) %> ago</p></strong>
+      <div class="pt1"><%= sanitize markdown_to_html(@trade.description) %></div>
+    </div>
+
+    <% if @trade.images.attached? %>
+      <div class="row is-multiline pl-3">
+        <% @trade.images.each do |image| %>
+          <div class="column is-one-third ">
+             <div style="width:330px; height:180px;">
+            <%= image_tag image.variant(resize: "320x160>") %>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    <% end %>
+
+
+  <div class="content">
+  <div class="col-6 text-center">
+    <% if trade_author(@trade) %>
+      <div class="bg-dark pa3 mb4 border-radius-3">
+        <p class="f6 pb1 has text-white">Author actions:</p>
+        <div class="button-group">
+          <%= link_to "Edit product: #{@trade.title}", edit_trade_path(@trade), class: 'btn btn-sm btn-warning mb-2' %>
+          <%= link_to "Back", trades_path, class: "btn-sm btn btn-primary mb-2" %>
+          <%= button_to 'delete this product?', @trade, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger mb-2" %>
+        </div>
+      </div>
+    <% end %>
+
+      <div class="col-sm-9 mt-3 border mr-5 pt-2 pb-2">
+     <button class="btn btn-info text-uppercase mt-3">Call <%=@trade.user.name %></button>
+     <button class="btn btn-info text-uppercase mt-3">Email <%=@trade.user.name %></button>
+   </div>
+    <div class="pr5 mb4">
+      <p class="text-align-left f6">Trade author:</p>
+      <div class="inline-block nudge-down-10"><%= gravatar_for @trade.user, size: 32 %></div>
+      <div class="inline-block"><%= @trade.user.name %></div>
+    </div>
+
+    <% if user_signed_in? && current_user.id != @trade.user_id %>
+      <%= link_to "Message #{@trade.user.name}", conversations_path(sender_id: current_user.id, recipient_id: @trade.user.id), method: 'post', class:"button is-link" %>
+    <% elsif user_signed_in? && current_user.id == @trade.user_id  %>
+      <%= link_to "Conversations", conversations_path %>
+    <% else %>
+
+    <%= link_to "Sign up to message #{@trade.user.name}", new_user_registration_path %>
+    <% end %>
+  </div>
+</div>
+</div>
+</div>
+</div>
+

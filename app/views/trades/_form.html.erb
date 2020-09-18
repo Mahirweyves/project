@@ -1,0 +1,38 @@
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <%= simple_form_for(@trade) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <% if @trade.errors.any? %>
+      <div id="error_explanation", class="btn btn-sm btn-danger mt-3 mb-5">
+       <h2><%= pluralize(trade.errors.count, "Error") %>
+prevented this trade from being saved:</h2>
+        <ul>
+          <% @trade.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <div class="field">
+    <%= f.text_field :title, maxlength: 100, placeholder: 'Title', class:'form-control',required: true, autofocus: true, minlength: 100 %><br>
+    </div>        
+
+    <div class="field">
+    <%= f.text_area :description, placeholder: 'Description', class:'form-control',required: true, autofocus: true,autofocus: true, input_html: { class: "textarea" }, wrapper: false, label_html: { class: "label" } %><br>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <%= f.input :images, as: :file,  input_html: { multiple: true, direct_upload: true }, label: false, wrapper: false %>
+      </div>
+    </div>
+
+<br>
+<div class="text-center">
+  <%= f.submit "Save Product", class: "btn btn-success mt3 mb-5" %>
+<% end %>
+</div>
+
+  
