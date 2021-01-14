@@ -1,0 +1,25 @@
+
+<%= simple_form_for(@video) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+<%= f.label :clip %>
+    <div class="field">
+      <div class="control">
+        <%= f.input :clip, as: :file, placeholder: 'clip',  input_html: { multiple: true, direct_upload: true }, label: false, wrapper: false %>
+      </div>
+     </div></br>
+    
+    <%= f.label :thumbnail %>
+     <div class="field">
+      <div class="control">
+        <%= f.input :thumbnail, as: :file,  input_html: { multiple: true, direct_upload: true }, label: false, wrapper: false %>
+      </div>
+     </div></br>
+
+  <div class="form-inputs">
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

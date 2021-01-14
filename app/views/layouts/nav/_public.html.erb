@@ -1,41 +1,54 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top btn-dark">
-  <strong class="navbar-brand" href="#">Mayv</strong>
-   <%= image_tag('Logos.jpg.jpg', width:50) %>
+<nav class="navbar navbar-expand-md navbar-dark 
+fixed-top">
+  <strong class="navbar-brand mr-2" href="#"></strong>
+   <%= link_to image_tag('img2.png', width:78) %>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+  <div class="collapse navbar-collapse ml-2" id="navbarsExampleDefault ">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="#">Category</a>
+        <a class="nav-link" href="/trades/new">Add Product</a>
       </li>
 
-       <li class="nav-item">
-        <div id="navbar" class="navbar-menu">
-        <div class="navbar-end">
-          <%= link_to "New Product", new_trade_path, class: "navbar-brand" %>
+       
 
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contact Us</a>
+        <div class="dropdown-menu btn bg-secondary" aria-labelledby="dropdown01">
+          <a class="dropdown-item" href="#">*Kigali-kicukiro*</a>
+          <a class="dropdown-item" href="#">*mayvads20@gmail.com*</a>
+          <a class="dropdown-item" href="#">*0788561729*</a>
         </div>
-      </div>
-      </li>
-      
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My account</a>
+
+         <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About Us</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
+          <a class="dropdown-item" href="#">Conditions of Use</a>
+          <a class="dropdown-item" href="#">Privacy Policy</a>
+        </div>
+
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
+        <div class="dropdown-menu btn bg-primary" aria-labelledby="dropdown01">
 
           <div class="navbar-dropdown is-right">
-                 <%= link_to current_user, edit_user_registration_path, class:"dropdown-item" %>
-                  <%= link_to "Log Out", destroy_user_session_path, method: :delete, class:"dropdown-item" %>
+              
+                 <%= link_to 'Edit profile', edit_user_registration_path, class:"dropdown-item" %>
+                
+                  <%= link_to "Log Out", destroy_user_session_path, method: :delete, data: {confirm: "Are you sure?"}, class:"dropdown-item" %>
+                 
           </div>
         </div>
       </li>
 
-      <% if user_signed_in? %>
+     <% if user_signed_in? %>
      <li class="nav-item">
        <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "nav-link" %>
      <% else %>
@@ -47,11 +60,17 @@
       </li> 
       <% end %>
     </ul>
-    
-      <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+    <div class="col-3">
+      <%= select_tag "filter", options_for_select([
+        'select filter',
+        'Art',
+        'Luxury car',
+        'Nike shoes']), class:'custom-select'%>
+    </div>
+      <form class="form-inline my-2 my-lg-0" action="/search">
+      <input class="form-control mr-sm-2" name="q" type="text" placeholder="Search" aria-label="Search">
+      <button class="btn btn-success my-2 my-sm-0 mr-3" type="submit">Search</button>
     </form>
   </div>
-</nav>
-</main>
+
+  

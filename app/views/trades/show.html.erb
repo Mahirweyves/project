@@ -1,14 +1,24 @@
   <div class="container">
     <div class="rows">
       <div class="col-md-8 mt-5">
-    <h1 class="title is-1"><%= @trade.title %></h1>
+      
+      <strong><h1 class="title pb3 border-bottom col-md-7 text-center mb-4">Product info</h1></strong>
+     <h2 class="lead">Category: <%= @trade.category.category %></h2>
+    <h5 class="title is-1">Product: <%= @trade.title %></h5>
     <div>
-      <strong><p class="pb3 border-bottom col-md-3 text-primary">Post <%= time_ago_in_words(@trade.created_at) %> ago</p></strong>
-      <div class="pt1"><%= sanitize markdown_to_html(@trade.description) %></div>
+      <strong><p class=" col-md-4 text-primary">Posted <%= time_ago_in_words(@trade.created_at) %> ago</p></strong>
+
+      <div class="pt1 pb3 border mb-3 pl-2"><strong class="border-bottom">Description: </strong><%= sanitize markdown_to_html(@trade.description) %>
+      </div>
+      <strong><div class="card mb-4 pl-4 bg-dark has text-white"> 
+        <div class="card-content pt-1 pb-2 lead">
+        <div>Created by: <%= %><a class="mt-1 mb-1 row text-right"></a>Our Address: <%= @trade.address %><a class="mt-1 mb-1 row text-right"></a>Our Contacts: <%= @trade.telephone %><a class="mt-1 row text-right"></a><a class="mt-1 mb-1 row text-right"></a>Our Website: <%= auto_link(@trade.listing) %><a class="mt-1 row text-right"></a></div></div></div></strong>
     </div>
 
+
     <% if @trade.images.attached? %>
-      <div class="row is-multiline pl-3">
+
+      <div class="row is-multiline pt-4 pl-5 mb-5 bg-light">
         <% @trade.images.each do |image| %>
           <div class="column is-one-third ">
              <div style="width:330px; height:180px;">
@@ -20,40 +30,51 @@
     <% end %>
 
 
+
   <div class="content">
-  <div class="col-6 text-center">
+  <div class="rows text-center">
     <% if trade_author(@trade) %>
-      <div class="bg-dark pa3 mb4 border-radius-3">
+    
+      <div class="bg-dark pa3 mb4 pb-2 border-radius-3">
         <p class="f6 pb1 has text-white">Author actions:</p>
         <div class="button-group">
-          <%= link_to "Edit product: #{@trade.title}", edit_trade_path(@trade), class: 'btn btn-sm btn-warning mb-2' %>
-          <%= link_to "Back", trades_path, class: "btn-sm btn btn-primary mb-2" %>
-          <%= button_to 'delete this product?', @trade, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger mb-2" %>
+          <%= link_to "Edit product: #{@trade.title}", edit_trade_path(@trade), class: "btn btn-sm btn btn-secondary mb-2" %>
+          <%= link_to "Back", trades_path, class: " btn btn-sm btn btn-primary mb-2" %>
+          <%= button_to 'delete this product?', @trade, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn btn-danger mb-2" %>
         </div>
       </div>
     <% end %>
+ 
+    <div class="container-fluid">
+      <div class="row">
 
-      <div class="col-sm-9 mt-3 border mr-5 pt-2 pb-2">
-     <button class="btn btn-info text-uppercase mt-3">Call <%=@trade.user.name %></button>
-     <button class="btn btn-info text-uppercase mt-3">Email <%=@trade.user.name %></button>
-   </div>
-    <div class="pr5 mb4">
+
+        <div class="pr5 mb4 ">
       <p class="text-align-left f6">Trade author:</p>
       <div class="inline-block nudge-down-10"><%= gravatar_for @trade.user, size: 32 %></div>
       <div class="inline-block"><%= @trade.user.name %></div>
     </div>
+    <div class="ml-md-auto col-md-8">
+      <div class="border mr-5 col-sm-9 mt-3 pt-2 pb-2">
+     <button class="btn btn-info text-uppercase mt-3 mb-3">Call <%=@trade.user.name %></button>
+     <button class="btn btn-info text-uppercase mt-3 mb-3" data-toggle="modal" data-target="#contact-modal">Email <%=@trade.user.name %></button>
+   </div></div>
+    
+
 
     <% if user_signed_in? && current_user.id != @trade.user_id %>
-      <%= link_to "Message #{@trade.user.name}", conversations_path(sender_id: current_user.id, recipient_id: @trade.user.id), method: 'post', class:"button is-link" %>
+      <%= link_to ""%>
     <% elsif user_signed_in? && current_user.id == @trade.user_id  %>
-      <%= link_to "Conversations", conversations_path %>
+      <%= link_to ""%>
     <% else %>
-
-    <%= link_to "Sign up to message #{@trade.user.name}", new_user_registration_path %>
+    <%= link_to "", new_user_registration_path %>
     <% end %>
-  </div>
+    
+     <iframe class="bg-dark border ml-lg-4 mt-3 mb-5" width="480" height="320" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBnYOzq8MihxqRn3GLQF7Xk5x92-wsil_8&q=<%= @trade.address.to_param %>" allowfullscreen></iframe>
+  </div></div>
 </div>
 </div>
 </div>
 </div>
+<%= render "trades/send_email_modal"%>
 

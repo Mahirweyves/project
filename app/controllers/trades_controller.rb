@@ -1,17 +1,31 @@
 class TradesController < ApplicationController
   before_action :set_trade, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
-
+  
   # GET /trades
   # GET /trades.json
   def index
-    @trades = Trade.all
+    @categories = Category.all
+  
+    cate = params[:cate]
+
+    if !cate.nil?
+      @trades = Trade.where(:category_id => cate)    
+    else  
+      @trades = Trade.all
+    end  
   end
+
+  def search
+    @trades = Trade.where("title LIKE ?","%" + params[:q]+ "%")
+  end 
 
   # GET /trades/1
   # GET /trades/1.json
   def show
     @trade.user.name = @trade.user.name
+   
+
   end
 
   # GET /trades/new
@@ -63,6 +77,19 @@ class TradesController < ApplicationController
     end
   end
 
+  def email_trade
+    # trigger email send
+    trade_id = params[:trade_id]
+    username=params[:username]
+    email=params[:email]
+    message=params[:message]
+
+    # response to script
+    respond_to do |format|
+      format.json { head :no_content}
+    end
+  end  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_trade
@@ -71,6 +98,6 @@ class TradesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def trade_params
-      params.require(:trade).permit(:title, :description, :user_id, :name, images: [])
+      params.require(:trade).permit(:title, :address, :listing, :telephone, :description, :category_id, :user_id, :name, :clip, :thumbnail, images: [])
     end
 end

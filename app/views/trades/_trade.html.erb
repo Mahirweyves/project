@@ -1,13 +1,16 @@
-  <div class="container">
- <div class="rows border">
+  <div class="container-fluid">
+   <div class="rows">
+    <div class="border">
+
   <div class="card-image">
     <figure class="image is-square">
-       <%= link_to image_tag(trade.images.first.variant(resize: "640x480>")), trade %>
+       <%=link_to image_tag(trade.images.first.variant(resize: "150x150>")), trade %>
     </figure>
+    
   </div>
   <div class="card-content">
-    <h3 class="pt1 title is-5"><%=link_to trade.title, trade, class: "text-dark" %></h3>
-    <p class="pv1"><%= truncate(trade.description, length: 50) %></p>
+    <h4 class="pt1 title is-5 text-center"><%=link_to trade.title, trade, class: "text-dark" %></h4>
+    <p class="pv1"><%= truncate(trade.description, length: 30) %></p>
     <div class="media pt3">
       <div class="media-left pt3">
         <figure class="image is-48x48">
@@ -17,6 +20,7 @@
       <div class="media-content">
         <p class="has-text-weight-bold mb0"><%= trade.user.name %></p>
        <strong> <p class="is-italic mb0 text-primary"><time>posted <%= time_ago_in_words(trade.created_at) %> ago</time></p></strong>
+       </div>
       </div>
     </div>
   </div>
